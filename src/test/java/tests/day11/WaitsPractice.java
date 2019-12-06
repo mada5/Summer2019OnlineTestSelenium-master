@@ -29,11 +29,12 @@ public class WaitsPractice {
     }
     @Test
     public void test1(){
-        //this line should be before all findElements() mehods
+        //this line should be before all findElements() methods
         //to wait within 10 seconds, until element is present
         //we apply it once, and it always works
         //put this line into @BeforeMethod and  it will work for all tests
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+
 
         driver.findElement(By.linkText("Dynamic Loading")).click();
 

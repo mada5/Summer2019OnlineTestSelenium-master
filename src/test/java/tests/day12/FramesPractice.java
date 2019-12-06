@@ -25,6 +25,7 @@ public class FramesPractice {
         //without switching to the frame
         //we can switch to frame based on id, name, index(stating from 0), web element
         driver.switchTo().frame("mce_0_ifr");
+
         //WITHOUT SWITCHING, WE CANNOT SEE INNER HTML DOCUMENT
         //which one to use? id, name, index, webelement?
         //1.id or name <iframe id="mce_0_ifr" name="some_frame">

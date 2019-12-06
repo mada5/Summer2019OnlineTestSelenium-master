@@ -50,6 +50,7 @@ public class WindowSwitching {
                  driver.switchTo().window(windowHandle);
              }
          }
+
          System.out.println(driver.getTitle());
          Assert.assertEquals(driver.getTitle(),"Fresh tab", "Title is wrong!");
          //come back to original page

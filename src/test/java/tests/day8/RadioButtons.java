@@ -34,6 +34,7 @@ public class RadioButtons {
         //if button is selected it will return true, otherwise false
         Assert.assertTrue(blueButton.isSelected());
 
+
     }
     @Test(description = "Verify that red button is not selected")
     public void test2(){
