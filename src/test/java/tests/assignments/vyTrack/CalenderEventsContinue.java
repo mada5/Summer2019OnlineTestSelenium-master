@@ -26,7 +26,7 @@ public class CalenderEventsContinue {
     public void setup(){
         driver = BrowserFactory.getDriver("chrome");
         wait = new WebDriverWait(driver,15);
-        driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
+       driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
         driver.manage().window().maximize();
 
         driver.get("https://qa1.vytrack.com/");
@@ -66,12 +66,10 @@ public class CalenderEventsContinue {
 
         List<WebElement> gridList = driver.findElements(By.xpath("//tbody/tr[@class='renderable']/td[3]/input"));
 
-//        for(int i = 1; i< gridList.size(); i++){
-//            Select select = new Select(gridList.get(i));
-//            select.deselectByIndex(i);
-//
-//        }
-
+         for(int i = 1; i< gridList.size(); i++){
+            gridList.get(i).click();
+            Assert.assertFalse(gridList.get(i).isSelected());
+        }
         BrowserUtils.wait(3);
 
 
@@ -119,18 +117,18 @@ public class CalenderEventsContinue {
         WebElement startTime = driver.findElement(By.xpath("//label[text()='Start']/parent::div/following-sibling::div/div/input[2]"));
         BrowserUtils.wait(2);
         startTime.click();
-      List<WebElement> startTimeList =  driver.findElements(By.xpath("//ul[@class='ui-timepicker-list']"));
-      String sTime ="";
-//      for (WebElement selectedTime : startTimeList){
-//          if(selectedTime.isSelected()){
-//              sTime = selectedTime.getText();
-//          }
-//      }
+
+        String sTime = startTime.getAttribute("value");
+
+        WebElement endTime = driver.findElement(By.xpath("//label[text()='End']/parent::div/following-sibling::div/div/input[2]"));
+        endTime.click();
+        String eTime = endTime.getAttribute("value");
 
 
-        System.out.println(sTime);
 
-      BrowserUtils.wait(5);
+
+
+
 
 
 
@@ -139,16 +137,46 @@ public class CalenderEventsContinue {
     }
     @Test
     public void test6(){
+        WebElement loaderMask = driver.findElement(By.xpath("//div[@class='loader-mask']"));
+        wait.until(ExpectedConditions.invisibilityOf(loaderMask));
         driver.findElement(By.xpath("//a[@title='Create Calendar event']")).click();
-        WebElement startTime = driver.findElement(By.xpath("//li[text()='9:00 PM']"));
-        Select select = new Select(startTime);
-        String option = "" + select.getFirstSelectedOption();
+        //Start time
+        WebElement startTime = driver.findElement(By.xpath("//label[text()='Start']/parent::div/following-sibling::div/div/input[2]"));
+        BrowserUtils.wait(2);
+        startTime.click();
+
+        //Selects 9:00 PM
+        WebElement timeSelected = driver.findElement(By.xpath("//div[@class='ui-timepicker-wrapper']/ul/li[43]"));
+        timeSelected.click();
+
+        WebElement endTime = driver.findElement(By.xpath("//label[text()='End']/parent::div/following-sibling::div/div/input[2]"));
+        endTime.click();
+        BrowserUtils.wait(3);
+        String selectedTime = endTime.getAttribute("value");
+        Assert.assertEquals(selectedTime,"10:00 PM");
 
 
 
     }
-    @Test(description = "")
+    @Test(description = "Verify that All day Event check box is selected")
     public void test7(){
+        WebElement loaderMask = driver.findElement(By.xpath("//div[@class='loader-mask']"));
+        wait.until(ExpectedConditions.invisibilityOf(loaderMask));
+        driver.findElement(By.xpath("//a[@title='Create Calendar event']")).click();
+
+        wait.until(ExpectedConditions.invisibilityOf(loaderMask));
+        WebElement allDayEventBox = driver.findElement(By.xpath(" //label[text()='All-day event']/parent::div/following-sibling::div/input"));
+        BrowserUtils.wait(2);
+        allDayEventBox.click();
+        WebElement startTime = driver.findElement(By.xpath("//label[text()='Start']/parent::div/following-sibling::div/div/input[2]"));
+        WebElement endTime = driver.findElement(By.xpath("//label[text()='End']/parent::div/following-sibling::div/div/input[2]"));
+        Assert.assertTrue(allDayEventBox.isSelected());
+        BrowserUtils.wait(2);
+        Assert.assertFalse(startTime.isDisplayed());
+        Assert.assertFalse(endTime.isDisplayed());
+
+
+
 
     }
     
